@@ -1,6 +1,6 @@
 FROM debian:buster
 
-RUN apt update
+RUN apt -y update
 RUN apt install -y vim
 RUN apt install -y sudo
 RUN apt install -y mariadb-server
