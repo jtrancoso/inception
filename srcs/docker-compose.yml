@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+    mariadb:
+      build: ./requirements/mariadb
+      container_name: "mariadb"
+      env_file: ./.env
+      restart: always
+      networks:
+        - docker-network
+      volumes:
+        - "db:/var/lib/mysql"
+    
+    wordpress:
+      build: ./requirements/wordpress
+      container_name: "wordpress"
+      env_file: ./.env
+      restart: always
+      depends_on:
+        - "mariadb"
+      networks:
+        - docker-network
+      volumes:
+        - "wp:/var/www/html"
+    
+    nginx:
+      build: ./requirements/nginx
+      container_name: "nginx"
+      env_file: ./.env
+      restart: always
+      depends_on:
+        - "mariadb"
+        - "wordpress"
+      ports:
+        - "443:443"
+      networks:
+        - docker-network
+      volumes:
+        - "wp:/var/www/html"
+
+networks:
+    docker-network:
+      driver: bridge
+
+volumes:
+    db:
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: /home/jtrancos/data/mariadb
+    wp:
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: /home/jtrancos/data/wordpress

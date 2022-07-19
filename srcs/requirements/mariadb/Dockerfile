@@ -8,5 +8,5 @@ RUN apt install -y mariadb-server
 COPY ./config/start.sh /start.sh
 RUN chmod 777 /start.sh
 
-COPY ./config/50-server.cnf /etc/mysql/mariadb.conf.d/
+COPY ./config/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 ENTRYPOINT [ "/start.sh" ]
