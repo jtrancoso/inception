@@ -9,7 +9,7 @@ services:
       networks:
         - docker-network
       volumes:
-        - "db:/var/lib/mysql"
+        - "/data/mysql:/var/lib/mysql"
     
     wordpress:
       build: ./requirements/wordpress
@@ -21,7 +21,7 @@ services:
       networks:
         - docker-network
       volumes:
-        - "wp:/var/www/html"
+        - "/data/html:/var/www/html"
     
     nginx:
       build: ./requirements/nginx
@@ -36,22 +36,22 @@ services:
       networks:
         - docker-network
       volumes:
-        - "wp:/var/www/html"
+        - "/data/html:/var/www/html"
 
 networks:
     docker-network:
       driver: bridge
 
-volumes:
-    db:
-      driver: local
-      driver_opts:
-        type: none
-        o: bind
-        device: /home/jtrancos/data/mariadb
-    wp:
-      driver: local
-      driver_opts:
-        type: none
-        o: bind
-        device: /home/jtrancos/data/wordpress
+# volumes:
+#     db:
+#       driver: local
+#       driver_opts:
+#         type: none
+#         o: bind
+#         device: /home/jtrancos/data/mysql
+#     wp:
+#       driver: local
+#       driver_opts:
+#         type: none
+#         o: bind
+#         device: /home/jtrancos/data/wordpress
