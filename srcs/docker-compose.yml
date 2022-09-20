@@ -42,16 +42,16 @@ networks:
     docker-network:
       driver: bridge
 
-# volumes:
-#     db:
-#       driver: local
-#       driver_opts:
-#         type: none
-#         o: bind
-#         device: /home/jtrancos/data/mysql
-#     wp:
-#       driver: local
-#       driver_opts:
-#         type: none
-#         o: bind
-#         device: /home/jtrancos/data/wordpress
+volumes:
+    db:
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: /home/jtrancos/data/mysql
+    wp:
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: /home/jtrancos/data/wordpress
