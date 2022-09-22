@@ -1,21 +1,26 @@
 #!/bin/bash
+
 sudo service mysql start
 sudo mysql_secure_installation << EOF
 
 Y
-1234
-1234
+$DB_ROOT_PASS
+$DB_ROOT_PASS
 Y
 Y
 Y
 Y
 EOF
 
-sudo mysql -e "CREATE DATABASE IF NOT EXISTS wordpress"
-sudo mysql -e "CREATE USER IF NOT EXISTS 'jesus'@'%' IDENTIFIED BY '1234'"
-sudo mysql -e "GRANT ALL PRIVILEGES ON * . * TO 'jesus'@'%'"
-sudo mysql -e "CREATE USER 'user'@'%' IDENTIFIED BY '1234'"
-sudo mysql -e "GRANT ALL PRIVILEGES ON wordpress.* TO 'user'@'%'"
+result=$(sudo mysql -s -N -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='$DB_NAME'");
+if [ -z "$result" ]; then
+  sudo mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME charset utf8mb4 collate utf8mb4_unicode_ci"
+  sudo mysql $DB_NAME < /wordpress.sql
+fi
+sudo mysql -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_USER_PASS'"
+sudo mysql -e "GRANT ALL PRIVILEGES ON * . * TO '$DB_USER'@'%'"
+sudo mysql -e "CREATE USER '$WP_USER'@'%' IDENTIFIED BY '$WP_USER_PASS'"
+sudo mysql -e "GRANT ALL PRIVILEGES ON wordpress.* TO '$WP_USER'@'%'"
 sudo mysql -e "FLUSH PRIVILEGES"
 echo **Database Created**
 sudo service mysql stop
