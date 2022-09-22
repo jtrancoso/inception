@@ -12,8 +12,11 @@ Y
 Y
 EOF
 
-echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
-echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
-
+mysql -e "CREATE $DB_NAME charset utf8mb4 collate utf8mb4_unicode_ci"
+mysql -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_USER_PASS'"
+mysql -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%'"
+mysql -e "CREATE USER '$WP_USER'@'%' IDENTIFIED BY '$WP_USER_PASS'"
+mysql -e "GRANT ALL PRIVILEGES ON wordpress.* TO '$WP_USER'@'%'"
+mysql -e "FLUSH PRIVILEGES"
 service mysql stop
 mysqld_safe
