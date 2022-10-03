@@ -8,4 +8,3 @@ sed -i "s/password_here/$DB_USER_PASS/g" /var/www/html/wordpress/wp-config.php
 sed -i "s/localhost/$DB_HOST/g" /var/www/html/wordpress/wp-config.php
 chown www-data:www-data /var/www/html/wordpress/wp-config.php -R
 php-fpm7.3 -F
-wp db create
