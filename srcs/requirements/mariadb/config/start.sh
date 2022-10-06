@@ -20,6 +20,8 @@ sudo mysql -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_USER_
 sudo mysql -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%'"
 sudo mysql -e "CREATE USER IF NOT EXISTS '$WP_USER'@'%' IDENTIFIED BY '$WP_USER_PASS'"
 sudo mysql -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$WP_USER'@'%'"
+sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED with mysql_native_password;"
+sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASS';"
 sudo mysql -e "FLUSH PRIVILEGES"
 sudo service mysql stop
 sudo mysqld_safe
